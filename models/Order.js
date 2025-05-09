@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema({
     }, // { lat, lng }
     scheduledDate: { 
         type: Date, 
+        enum: ["agriculture", "security", "industry", "customise"], 
         required: true 
     },
     userId: { 

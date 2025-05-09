@@ -4,7 +4,7 @@ console.log("Loading orderController.js"); // للتشخيص
 
 // Schema للتحقق من صحة بيانات الطلب
 const orderSchema = Joi.object({
-    serviceType: Joi.string().required(),
+    serviceType: Joi.string().valid("agriculture", "security", "industry", "customise").required(),
     location: Joi.string().required(),
     scheduledDate: Joi.date().required(),
     assignedDrone: Joi.string().optional(),
