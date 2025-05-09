@@ -16,7 +16,8 @@ const orderSchema = new mongoose.Schema({
         required: true 
     },
     serviceType: { 
-        type: String, 
+        type: String,
+        enum: ["agriculture", "security", "industry", "customise"], 
         required: true 
     },
     status: { 
