@@ -1,11 +1,17 @@
-require('dotenv').config();  //   استيراد   
+require('dotenv').config();  // استيراد المتغيرات البيئية
 
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const cors = require('cors'); // ✅ استيراد CORS في الأعلى
 
 // Initialize Express app first
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5000', 
+  credentials: true, 
+}));
 
 // Body parser middleware
 app.use(express.json());
@@ -28,7 +34,7 @@ if (!process.env.MONGO_URI || !process.env.PORT) {
 // Connect to MongoDB
 mongoose
     .connect(process.env.MONGO_URI, {
-        authSource: 'droneDB' // Authentication source
+        authSource: 'admin' // Authentication source
     })
     .then(() => console.log("✅ Connected to MongoDB"))
     .catch((err) => {
@@ -42,7 +48,8 @@ const userRoutes = require("./routes/userRoutes");
 const droneRoutes = require("./routes/droneRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const reportRoutes = require("./routes/reportRoutes");
-const adminRoutes = require("./routes/adminRoutes"); // Import admin routes
+const adminRoutes = require("./routes/adminRoutes");
+const dashboardRoutes = require("./routes/dashboard"); //  استيراد مسار dashboard
 
 // Use API routes
 app.use("/api/auth", authRoutes);
@@ -50,7 +57,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/drones", droneRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/reports", reportRoutes);
-app.use("/api/admin", adminRoutes); // Use admin routes
+app.use("/api/admin", adminRoutes);
+app.use("/api/dashboard", dashboardRoutes); //  ربط مسار dashboard
 
 // 404 Error handler
 app.use((req, res) => {
@@ -60,3 +68,6 @@ app.use((req, res) => {
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+
+
